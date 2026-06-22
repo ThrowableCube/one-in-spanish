@@ -5,8 +5,8 @@ This is basically just uno, made in C++ with PDCurses
 Note: This is only tested on Windows.
 
 ## Requirements:
-GCC / MinGW and PDCurses in lib and include folder (This does not include the PDCurses library.)
+GCC / MinGW and PDCurses in lib and include folder (PDCurses is included but the library is for windows.)
 PDCurses can be found here: https://pdcurses.org
 MinGW can be installed with MSYS: https://www.msys2.org
 
-A makefile has not been made yet, sorry. Instead, use the compile.bat (or compile.sh) file.
+A makefile has not been made yet, sorry.

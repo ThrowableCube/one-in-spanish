@@ -37,13 +37,23 @@ int main() {
 
     WINDOW* cardWindow = newwin(14,14,1,1);
     box(cardWindow,ACS_VLINE,ACS_HLINE);
+
+    WINDOW* debugWindow = newwin(14,24,1,16);
+    box(debugWindow,ACS_VLINE,ACS_HLINE);
+
     while (1) {
+        wattron(debugWindow, A_REVERSE);
+        mvwprintw(debugWindow, 0, 2, " Values ");
+        wattroff(debugWindow, A_REVERSE);
+        mvwprintw(debugWindow, 1, 1, "Selection Value: %d", selection);
+
         wattron(cardWindow, A_REVERSE);
         mvwprintw(cardWindow, 0, 2, " Hand ");
         wattroff(cardWindow, A_REVERSE);
         mvwprintw(cardWindow, 12, 1, "Prev");
         mvwprintw(cardWindow, 1, 1, "Next");
         refresh();
+        wrefresh(debugWindow);
         wrefresh(cardWindow);
         ch = getch();
         switch (ch) {
@@ -57,6 +67,7 @@ int main() {
                 wattroff(cardWindow, A_REVERSE);
                 mvwprintw(cardWindow, 12, 1, "Prev");
                 refresh();
+                wrefresh(debugWindow);
                 wrefresh(cardWindow);
                 break;
             case KEY_PPAGE:
@@ -69,7 +80,14 @@ int main() {
                 wattroff(cardWindow, A_REVERSE);
                 mvwprintw(cardWindow, 1, 1, "Next");
                 refresh();
+                wrefresh(debugWindow);
                 wrefresh(cardWindow);
+                break;
+            case KEY_DOWN:
+                selection--;
+                break;
+            case KEY_UP:
+                selection++;
                 break;
             case KEY_ENTER:
                 break;

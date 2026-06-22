@@ -26,6 +26,8 @@ int main() {
     int displayedLine = 0;
     int displayOffset = 0;
     bool notOOB = 0;
+    bool alreadyDidIt = 0;
+    bool notClose = 1;
 
     // start of pdcurses
     // OUUU SHI VS CODE RECOGNIZES IT
@@ -38,18 +40,23 @@ int main() {
     WINDOW* cardWindow = newwin(14,14,1,1);
     box(cardWindow,ACS_VLINE,ACS_HLINE);
 
-    WINDOW* debugWindow = newwin(14,24,1,16);
+    WINDOW* debugWindow = newwin(14,34,1,16);
     box(debugWindow,ACS_VLINE,ACS_HLINE);
 
-    while (1) {
-        wattron(debugWindow, A_REVERSE);
-        mvwprintw(debugWindow, 0, 2, " Values ");
-        wattroff(debugWindow, A_REVERSE);
+    //////////////////////////////////////////////////////////////////////////
+
+    wattron(debugWindow, A_REVERSE);
+    mvwprintw(debugWindow, 0, 2, " Debug ");
+    wattroff(debugWindow, A_REVERSE);
+
+    wattron(cardWindow, A_REVERSE);
+    mvwprintw(cardWindow, 0, 2, " Hand ");
+    wattroff(cardWindow, A_REVERSE);
+
+    while (notClose) {
+        mvwprintw(debugWindow, 1, 1, "                      ");
         mvwprintw(debugWindow, 1, 1, "Selection Value: %d", selection);
 
-        wattron(cardWindow, A_REVERSE);
-        mvwprintw(cardWindow, 0, 2, " Hand ");
-        wattroff(cardWindow, A_REVERSE);
         mvwprintw(cardWindow, 12, 1, "Prev");
         mvwprintw(cardWindow, 1, 1, "Next");
         refresh();
@@ -90,8 +97,17 @@ int main() {
                 selection++;
                 break;
             case KEY_ENTER:
+                notClose = 0;
                 break;
                 
+        }
+        mvwprintw(debugWindow, 12, 1, "                              ");
+        if (selection > 9) {
+            selection = 0;
+            mvwprintw(debugWindow, 12, 1, "Selection > 10");
+        } else if (selection < 0) {
+            selection = 9;
+            mvwprintw(debugWindow, 12, 1, "Selection < 0");
         }
     }
 

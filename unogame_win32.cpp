@@ -64,7 +64,7 @@ int main() {
         wrefresh(cardWindow);
         ch = getch();
         switch (ch) {
-            case KEY_NPAGE:
+            case KEY_NPAGE: // ok sahai punyaon
                 wattron(cardWindow, A_REVERSE);
                 displayOffset--;
                 mvwprintw(cardWindow, 12, 1, "Prev");
@@ -78,7 +78,7 @@ int main() {
                 wrefresh(cardWindow);
                 break;
             case KEY_PPAGE:
-                wattron(cardWindow, A_REVERSE);
+                wattron(cardWindow, A_REVERSE); // what the fuck is this?
                 displayOffset++;
                 mvwprintw(cardWindow, 1, 1, "Next");
                 refresh();
@@ -101,7 +101,7 @@ int main() {
                 break;
                 
         }
-        mvwprintw(debugWindow, 12, 1, "                              ");
+        mvwprintw(debugWindow, 12, 1, "                              "); // didnt wanna redraw the border
         if (selection > 9) {
             selection = 0;
             mvwprintw(debugWindow, 12, 1, "Selection > 10");

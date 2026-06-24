@@ -58,7 +58,7 @@ int getCardColorAsANSI(uno::card card) { // Better, but still revise if possible
 
 int discardCard(uno::card discardingCard, uno::card &lastCard, bool mutate = 0) { // might need a rewrite.
     // HOLY SHIT I REMOVED THE PRINT AND PAUSE CODE AND IT LOOKS INFINITELY SMALLER.
-    if (discardingCard.color == lastCard.color || discardingCard.type == uno::type::wild) { // checks for matching color or wildcard
+    if (discardingCard.color == lastCard.color || discardingCard.type == uno::types::wild) { // checks for matching color or wildcard
         return 2;
     } else if (discardingCard.number == lastCard.number) {
 	if (mutate) { // mutate means that it's allowed to change a value

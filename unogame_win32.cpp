@@ -15,7 +15,7 @@ int main() {
         "Yellow"
     };
 
-    uno::card currentCard; // why can't you be like your brother??? look below you!
+    uno::card currentCard; // default card.
     currentCard.number = 2;
     currentCard.color = uno::colors::green;
     currentCard.type = uno::types::none;
@@ -55,7 +55,9 @@ int main() {
 
     while (notClose) {
         mvwprintw(debugWindow, 1, 1, "                      ");
+	mvwprintw(debugWindow, 2, 1, "                      ");
         mvwprintw(debugWindow, 1, 1, "Selection Value: %d", selection);
+	mvwprintw(debugWindow, 2, 1, "Line Offset: %d", displayOffset);
 
         mvwprintw(cardWindow, 12, 1, "Prev");
         mvwprintw(cardWindow, 1, 1, "Next");

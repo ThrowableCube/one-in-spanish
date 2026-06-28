@@ -1,10 +1,20 @@
 #include <cstdlib>
 #include <ctime>
 #include <vector>
-#include <curses.h>
+#include "include/curses.h"
+#include "include/asio.hpp"
 #include <stdio.h>
 #include <iostream>
 #pragma once
+
+asio::io_context io;
+
+// class asioAlias {
+//     public:
+//         void wait_async(int seconds) {
+//             asio::steady_timer t(io, asio::chrono::seconds(seconds));
+//         }
+// };
 
 class uno {
     public:
@@ -59,7 +69,7 @@ int getCardColorAsANSI(uno::card card) { // Better, but still revise if possible
 int discardCard(uno::card discardingCard, uno::card &lastCard, bool mutate = 0) { // might need a rewrite.
     // HOLY SHIT I REMOVED THE PRINT AND PAUSE CODE AND IT LOOKS INFINITELY SMALLER.
     if (discardingCard.color == lastCard.color || discardingCard.type == uno::types::wild) { // checks for matching color or wildcard
-        return 2;
+        return 2; // if it's two open the color picker! :D
     } else if (discardingCard.number == lastCard.number) {
 	if (mutate) { // mutate means that it's allowed to change a value
             lastCard.color = discardingCard.color;
@@ -68,3 +78,4 @@ int discardCard(uno::card discardingCard, uno::card &lastCard, bool mutate = 0) 
     }
     return 0; // if none of the ifs ran
 }
+

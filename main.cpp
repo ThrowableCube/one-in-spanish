@@ -1,4 +1,5 @@
 #include "unocards.hpp"
+#include "cursealias.hpp"
 
 int main() {
     srand(time(0));
@@ -35,6 +36,7 @@ int main() {
     noecho();
     keypad(stdscr, 1);
     curs_set(0);
+    nodelay(stdscr, 1);
     int ch = 0;
 
     WINDOW* cardWindow = newwin(14,14,1,1);
@@ -54,43 +56,25 @@ int main() {
     wattroff(cardWindow, A_REVERSE);
 
     while (notClose) {
-        mvwprintw(debugWindow, 1, 1, "                      ");
-	mvwprintw(debugWindow, 2, 1, "                      ");
-        mvwprintw(debugWindow, 1, 1, "Selection Value: %d", selection);
-	mvwprintw(debugWindow, 2, 1, "Line Offset: %d", displayOffset);
-
-        mvwprintw(cardWindow, 12, 1, "Prev");
-        mvwprintw(cardWindow, 1, 1, "Next");
         refresh();
         wrefresh(debugWindow);
         wrefresh(cardWindow);
+        mvwprintw(debugWindow, 1, 1, "                      ");
+	    mvwprintw(debugWindow, 2, 1, "                      ");
+        mvwprintw(debugWindow, 1, 1, "Selection Value: %d", selection);
+	    mvwprintw(debugWindow, 2, 1, "Line Offset: %d", displayOffset);
+
+        mvwprintw(cardWindow, 12, 1, "PageDown");
+        mvwprintw(cardWindow, 1, 1, "PageUp");
         ch = getch();
         switch (ch) {
             case KEY_NPAGE: // ok sahai punyaon
-                wattron(cardWindow, A_REVERSE);
                 displayOffset--;
-                mvwprintw(cardWindow, 12, 1, "Prev");
-                refresh();
-                wrefresh(cardWindow);
-                napms(50);
-                wattroff(cardWindow, A_REVERSE);
-                mvwprintw(cardWindow, 12, 1, "Prev");
-                refresh();
-                wrefresh(debugWindow);
-                wrefresh(cardWindow);
+                Sblink(cardWindow, 12, 1, "PageDown");
                 break;
             case KEY_PPAGE:
-                wattron(cardWindow, A_REVERSE); // what the fuck is this?
                 displayOffset++;
-                mvwprintw(cardWindow, 1, 1, "Next");
-                refresh();
-                wrefresh(cardWindow);
-                napms(50);
-                wattroff(cardWindow, A_REVERSE);
-                mvwprintw(cardWindow, 1, 1, "Next");
-                refresh();
-                wrefresh(debugWindow);
-                wrefresh(cardWindow);
+                Sblink(cardWindow, 1, 1, "PageUp");
                 break;
             case KEY_DOWN:
                 selection--;
@@ -98,23 +82,24 @@ int main() {
             case KEY_UP:
                 selection++;
                 break;
-            case KEY_ENTER:
+            case '\n':
                 notClose = 0;
                 break;
-                
         }
         mvwprintw(debugWindow, 12, 1, "                              "); // didnt wanna redraw the border
         if (selection > 9) {
             selection = 0;
-            mvwprintw(debugWindow, 12, 1, "Selection > 10");
         } else if (selection < 0) {
             selection = 9;
-            mvwprintw(debugWindow, 12, 1, "Selection < 0");
+        }
+
+        if (displayOffset < 0) {
+            displayOffset = 0;
         }
     }
 
-    getch();
-
     endwin();
+    getch();
+    printf("hi");
     return 0;
 }

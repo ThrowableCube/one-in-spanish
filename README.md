@@ -9,4 +9,5 @@ GCC / MinGW and PDCurses in lib and include folder (PDCurses is included but the
 PDCurses can be found here: https://pdcurses.org
 MinGW can be installed with MSYS: https://www.msys2.org
 
+Run the compile.bat file.
 A makefile has not been made yet, sorry.

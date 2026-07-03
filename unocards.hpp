@@ -40,12 +40,12 @@ class uno {
         };
 };
 
-std::string printTLCard(uno::card card) {
+const char* printTLCard(uno::card card) {
     std::string rs;
-    std::vector<char> letterColor = {'R', 'B', 'G', 'Y'};
-    rs = std::to_string(letterColor.at(static_cast<int>(card.color)));
+    std::vector<std::string> letterColor = {"R", "B", "G", "Y"};
+    rs = letterColor.at(static_cast<int>(card.color));
     rs += std::to_string(card.number);
-    return rs;
+    return rs.c_str();
 }
 
 int getCardColorAsANSI(uno::card card) { // Better, but still revise if possible.

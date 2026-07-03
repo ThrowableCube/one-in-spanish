@@ -5,7 +5,7 @@ int main() {
     srand(time(0));
     std::vector<uno::card> thing = {};
 
-    for (int i = 0 ; i < 5 ; i++) {
+    for (int i = 0 ; i < 10 ; i++) {
         thing.push_back({(rand() % 10), static_cast<uno::colors>(rand() % 4), uno::types::none});
     }
 
@@ -57,6 +57,13 @@ int main() {
 
     while (notClose) {
         refresh();
+        for (int i = 0 ; i < 10 ; i++) {
+            if (i > thing.size()) {
+                mvwprintw(cardWindow, (11 - i), 1, "  ");
+            } else {
+                mvwprintw(cardWindow, (11 - i), 1, printTLCard(thing.at(i)));
+            }
+        }
         wrefresh(debugWindow);
         wrefresh(cardWindow);
         mvwprintw(debugWindow, 1, 1, "                      ");

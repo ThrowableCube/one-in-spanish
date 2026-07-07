@@ -1,11 +1,14 @@
 # C++ Uno
 This is basically just uno, made in C++ with PDCurses
 
+This code is genuinely so messy that even I wonder how it managed to compile.
+
 # Building
 Note: This is only tested on Windows.
 
 ## Requirements:
-GCC / MinGW, PDCurses / NCurses and ASIO in lib and include folder (It doesn't include them now...)
+GCC / MinGW, PDCurses / NCurses and ASIO in lib and include folder.
+Libraries are not included with code.
 
 PDCurses can be found here: https://pdcurses.org
 
@@ -13,6 +16,4 @@ MinGW can be installed with MSYS: https://www.msys2.org
 
 ASIO can be found here: https://think-async.com/Asio/
 
-Run the compile.bat file.
-
-A makefile has not been made yet, sorry.
+https://www.youtube.com/watch?v=K198Yx2o1w0

@@ -61,7 +61,7 @@ int main() {
             if (i > thing.size()) {
                 mvwprintw(cardWindow, (11 - i), 1, "  ");
             } else {
-                mvwprintw(cardWindow, (11 - i), 1, printTLCard(thing.at(i)));
+                mvwprintw(cardWindow, (11 - i), 1, printTLCard(thing.at(i)).c_str());
             }
         }
         wrefresh(debugWindow);

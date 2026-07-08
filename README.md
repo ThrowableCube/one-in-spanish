@@ -10,9 +10,9 @@ Note: This is only tested on Windows.
 GCC / MinGW, PDCurses / NCurses and ASIO in lib and include folder.
 Libraries are not included with code.
 
-PDCurses can be found here: https://pdcurses.org
-
 MinGW can be installed with MSYS: https://www.msys2.org
+
+PDCurses can be found here: https://pdcurses.org
 
 ASIO can be found here: https://think-async.com/Asio/
 

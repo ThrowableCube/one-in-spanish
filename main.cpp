@@ -61,7 +61,11 @@ int main() {
             if (i >= thing.size()) {
                 mvwprintw(cardWindow, (11 - i), 1, "  ");
             } else {
+                if (i == selection) {
+                    wattron(cardWindow, A_REVERSE);
+                }
                 mvwprintw(cardWindow, (11 - i), 1, printTLCard(thing.at(i)).c_str());
+                wattroff(cardWindow, A_REVERSE);
             }
         }
         wrefresh(debugWindow);

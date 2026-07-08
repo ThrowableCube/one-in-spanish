@@ -2,10 +2,14 @@
 #include "cursealias.hpp"
 
 int main() {
+    int hmc = 0;
     srand(time(0));
     std::vector<uno::card> thing = {};
 
-    for (int i = 0 ; i < 10 ; i++) {
+    printf("a number, preferably between 1 and 10: ");
+    scanf("%d", &hmc);
+
+    for (int i = 0 ; i < hmc ; i++) {
         thing.push_back({(rand() % 10), static_cast<uno::colors>(rand() % 4), uno::types::none});
     }
 

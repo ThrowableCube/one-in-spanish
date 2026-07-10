@@ -5,6 +5,7 @@
 #include "include/asio.hpp"
 #include <stdio.h>
 #include <iostream>
+#include <bits/stdc++.h>
 #pragma once
 
 asio::io_context io;

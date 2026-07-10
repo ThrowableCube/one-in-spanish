@@ -2,16 +2,23 @@
 #include "cursealias.hpp"
 
 int main() {
-    int hmc = 0;
+    int ch = 0;
     srand(time(0));
+    std::random_device rd;
+    std::mt19937 g(rd());
+
     std::vector<uno::card> thing = {};
 
-    printf("a number, preferably between 1 and 10: ");
-    scanf("%d", &hmc);
-
-    for (int i = 0 ; i < hmc ; i++) {
-        thing.push_back({(rand() % 10), static_cast<uno::colors>(rand() % 4), uno::types::none});
+    // somebodys gonna get confused by this so...
+    for (int x = 0 ; x < 4 ; x++) { // this for cycles color
+        thing.push_back({0, static_cast<uno::colors>(x), uno::types::none});
+        for (int y = 0 ; y < 9 ; y++) { // this for generates number cards above 0
+            for (int z = 0 ; z < 2 ; z++) { // this generates the card 2 times (TWO TIMES FROM FORSAKEN NO WAY)
+                thing.push_back({(y + 1), static_cast<uno::colors>(x), uno::types::none});
+            }
+        }
     }
+    // end of hell code
 
     std::string colorArray[4] = {
         "Red",
@@ -37,11 +44,10 @@ int main() {
     // start of pdcurses
     // OUUU SHI VS CODE RECOGNIZES IT
     initscr();
+    curs_set(0);
     noecho();
     keypad(stdscr, 1);
-    curs_set(0);
     nodelay(stdscr, 1);
-    int ch = 0;
 
     WINDOW* cardWindow = newwin(14,14,1,1);
     box(cardWindow,ACS_VLINE,ACS_HLINE);
@@ -62,13 +68,13 @@ int main() {
     while (notClose) {
         refresh();
         for (int i = 0 ; i < 10 ; i++) {
-            if (i >= thing.size()) {
+            if ((i + displayOffset) >= thing.size()) {
                 mvwprintw(cardWindow, (11 - i), 1, "  ");
             } else {
                 if (i == selection) {
                     wattron(cardWindow, A_REVERSE);
                 }
-                mvwprintw(cardWindow, (11 - i), 1, printTLCard(thing.at(i)).c_str());
+                mvwprintw(cardWindow, (11 - i), 1, printTLCard(thing.at((i + displayOffset))).c_str());
                 wattroff(cardWindow, A_REVERSE);
             }
         }
@@ -88,8 +94,10 @@ int main() {
                 Sblink(cardWindow, 12, 1, "PageDown");
                 break;
             case KEY_PPAGE:
-                displayOffset++;
-                Sblink(cardWindow, 1, 1, "PageUp");
+                if (displayOffset < thing.size()) {
+                    displayOffset++;
+                    Sblink(cardWindow, 1, 1, "PageUp");
+                }
                 break;
             case KEY_DOWN:
                 selection--;
@@ -114,7 +122,6 @@ int main() {
     }
 
     endwin();
-    getch();
     printf("hi");
     return 0;
 }

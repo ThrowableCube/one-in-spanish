@@ -2,10 +2,20 @@
 #include "cursealias.hpp"
 
 int main() {
+    // no i have to sleep
+    
     int ch = 0;
     srand(time(0));
     std::random_device rd;
     std::mt19937 g(rd());
+
+    // go commit die
+    // ur so mean waaaaa
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+    init_pair(2, COLOR_BLUE, COLOR_BLACK);
+    init_pair(3, COLOR_GREEN, COLOR_BLACK);
+    init_pair(4, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(5, COLOR_WHITE, COLOR_BLACK);
 
     std::vector<uno::card> thing = {};
 
@@ -20,7 +30,8 @@ int main() {
     }
     // end of hell code
 
-    std::string colorArray[4] = {
+    std::string colorArray[4] = { // do we need this?
+        // oh wait i dont have contributers no ones gonna answer this.
         "Red",
         "Blue",
         "Green",
@@ -40,6 +51,7 @@ int main() {
     bool notOOB = 0;
     bool alreadyDidIt = 0;
     bool notClose = 1;
+    // im glad modern compilers removed the need for initialized values having to go on top of int main, makes it way easier to write C++
 
     // start of pdcurses
     // OUUU SHI VS CODE RECOGNIZES IT

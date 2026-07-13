@@ -1,7 +1,6 @@
 @echo off
 chcp 437
-g++ main.cpp -lpdcurses -lws2_32 -o uno_win32 > log.txt 2>&1
-type log.txt
+mingw32-make
 pause
 uno_win32
 cls

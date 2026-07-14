@@ -8,3 +8,9 @@ void Sblink(WINDOW *window, int yPos, int xPos, const char* string) { // an alia
     mvwprintw(window, yPos, xPos, string);
     wrefresh(window);
 }
+
+void winTitle(WINDOW *window, const char* string) { // an alias for printing titles
+    wattron(window, A_REVERSE);
+    mvwprintw(window, 0, 2, string);
+    wattroff(window, A_REVERSE);
+}

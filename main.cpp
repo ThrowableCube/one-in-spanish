@@ -68,7 +68,7 @@ int main() {
     WINDOW* cardWindow = newwin(14,14,1,1);
     box(cardWindow,ACS_VLINE,ACS_HLINE);
 
-    WINDOW* pileWindow = newwin(14,14,1,51);
+    WINDOW* pileWindow = newwin(14,20,1,51);
     box(pileWindow,ACS_VLINE,ACS_HLINE);
 
     WINDOW* debugWindow = newwin(14,34,1,16);
@@ -76,13 +76,11 @@ int main() {
 
     //////////////////////////////////////////////////////////////////////////
 
-    wattron(debugWindow, A_REVERSE);
-    mvwprintw(debugWindow, 0, 2, " Debug ");
-    wattroff(debugWindow, A_REVERSE);
+    winTitle(debugWindow, " Debug ");
 
-    wattron(cardWindow, A_REVERSE);
-    mvwprintw(cardWindow, 0, 2, " Hand ");
-    wattroff(cardWindow, A_REVERSE);
+    winTitle(cardWindow, " Hand ");
+
+    winTitle(pileWindow, " Discard Pile ");
 
     while (notClose) {
         refresh();

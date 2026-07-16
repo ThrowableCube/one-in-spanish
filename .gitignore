@@ -1,5 +1,6 @@
 *.exe
 *.o
+*.bat
 lib/
 include/
 .vscode/

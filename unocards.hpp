@@ -5,7 +5,8 @@
 #include "include/asio.hpp"
 #include <stdio.h>
 #include <iostream>
-#include <bits/stdc++.h>
+#include <algorithm>
+#include <random>
 #pragma once
 
 asio::io_context io;
@@ -27,11 +28,10 @@ class uno {
         };
         enum class types {
             none = 0,
-            wild,
             draw,
-            block,
             reverse,
             skip,
+            wild,
             wilddraw
         };
 
@@ -51,8 +51,34 @@ class uno {
 std::string printTLCard(uno::card card) {
     std::string rs;
     std::vector<std::string> letterColor = {"R", "B", "G", "Y"};
-    rs = letterColor.at(static_cast<int>(card.color));
-    rs += std::to_string(card.number);
+    if (card.type == uno::types::none) {
+        rs = letterColor.at(static_cast<int>(card.color));
+        rs += std::to_string(card.number);
+    } else {
+        switch (static_cast<int>(card.type)) {
+            case 1:
+                rs = letterColor.at(static_cast<int>(card.color));
+                rs += "+";
+                break;
+            case 2:
+                rs = letterColor.at(static_cast<int>(card.color));
+                rs += "R";
+                break;
+            case 3:
+                rs = letterColor.at(static_cast<int>(card.color));
+                rs += "S";
+                break;
+            case 4:
+                rs = "WC";
+                break;
+            case 5:
+                rs = "W+";
+                break;
+            default:
+                rs = "!E";
+                break;
+        }
+    }
     return rs; // changed back to std string
 }
 

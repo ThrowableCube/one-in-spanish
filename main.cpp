@@ -22,9 +22,8 @@ int main() {
     players.push_back({"noName", 0, {}}); // what the fuck?
 
     // somebodys gonna get confused by this so...
-    for (int x = 0 ; x < 4 ; x++) { // this for cycles color
+    for (int x = 0 ; x < 4 ; x++) { // this cycles color
         deck.push_back({0, static_cast<uno::colors>(x), uno::types::none});
-        
         for (int y = 0 ; y < 9 ; y++) { // this for generates number cards above 0
             for (int z = 0 ; z < 2 ; z++) { // this generates the card 2 times
                 deck.push_back({(y + 1), static_cast<uno::colors>(x), uno::types::none});

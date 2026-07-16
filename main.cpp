@@ -2,6 +2,8 @@
 #include "cursealias.hpp"
 
 int main() {
+    // here come the tornado of shit code
+
     // no i have to sleep
     // ... this is awkward i updated the wrong file and i got confused on why my code changes arent working.
     
@@ -13,18 +15,25 @@ int main() {
     // go commit die
     // ur so mean waaaaa
 
+    std::vector<uno::player> players = {};
     std::vector<uno::card> deck = {};
+    std::vector<uno::card> pile = {};
+
+    players.push_back({"noName", 0, {}}); // what the fuck?
 
     // somebodys gonna get confused by this so...
     for (int x = 0 ; x < 4 ; x++) { // this for cycles color
         deck.push_back({0, static_cast<uno::colors>(x), uno::types::none});
+        
         for (int y = 0 ; y < 9 ; y++) { // this for generates number cards above 0
-            for (int z = 0 ; z < 2 ; z++) { // this generates the card 2 times (TWO TIMES FROM FORSAKEN NO WAY)
+            for (int z = 0 ; z < 2 ; z++) { // this generates the card 2 times
                 deck.push_back({(y + 1), static_cast<uno::colors>(x), uno::types::none});
             }
         }
     }
     // end of hell code
+
+    std::shuffle(deck.begin(), deck.end(), g);
 
     std::string colorArray[4] = { // do we need this?
         // oh wait i dont have contributers no ones gonna answer this.
@@ -34,17 +43,15 @@ int main() {
         "Yellow"
     };
 
-    uno::card currentCard; // default card.
-    currentCard.number = 2;
-    currentCard.color = uno::colors::green;
-    currentCard.type = uno::types::none;
-
     uno::card lastCard = {3, uno::colors::green, uno::types::none};
 
     int selection = 0;
     int displayedLine = 0;
     int displayOffset = 0;
     int result = 0;
+    int deathFromAbove = 0; // This is a song by toby emerson :]
+    int currentPlayer = 0;
+    int threshold = 50;
     bool notOOB = 0;
     bool alreadyDidIt = 0;
     bool notClose = 1;
@@ -54,6 +61,7 @@ int main() {
     // OUUU SHI VS CODE RECOGNIZES IT
     initscr();
     start_color();
+    use_default_colors();
     curs_set(0);
     noecho();
     keypad(stdscr, 1);
@@ -71,12 +79,12 @@ int main() {
     WINDOW* pileWindow = newwin(14,20,1,51);
     box(pileWindow,ACS_VLINE,ACS_HLINE);
 
-    WINDOW* debugWindow = newwin(14,34,1,16);
-    box(debugWindow,ACS_VLINE,ACS_HLINE);
+    WINDOW* playerWindow = newwin(14,34,1,16);
+    box(playerWindow,ACS_VLINE,ACS_HLINE);
 
     //////////////////////////////////////////////////////////////////////////
 
-    winTitle(debugWindow, " Debug ");
+    winTitle(playerWindow, " Player ");
 
     winTitle(cardWindow, " Hand ");
 
@@ -97,20 +105,28 @@ int main() {
                 wattroff(cardWindow, A_REVERSE);
             }
         }
-        wrefresh(debugWindow);
+
+        // THIS IS FOR THE DISCARD PILE NOT THE HAND WINDOW.
+        if (0 >= pile.size()) {
+            mvwprintw(pileWindow, (1), 1, "  ");
+        } else {
+            wattron(pileWindow, COLOR_PAIR(getCardColorAsANSI(pile.at(pile.size() - 1))));
+            mvwprintw(pileWindow, (1), 1, printTLCard(pile.at((pile.size() - 1))).c_str());
+            wattroff(pileWindow, COLOR_PAIR(getCardColorAsANSI(pile.at(pile.size() - 1))));
+        }
+        wrefresh(playerWindow);
         wrefresh(cardWindow);
         wrefresh(pileWindow);
-        mvwprintw(debugWindow, 1, 1, "                      ");
-	    mvwprintw(debugWindow, 2, 1, "                      ");
-        mvwprintw(debugWindow, 1, 1, "Selection Value: %d", selection);
-	    mvwprintw(debugWindow, 2, 1, "Line Offset: %d", displayOffset);
+        mvwprintw(playerWindow, 1, 1, "                      ");
+	    mvwprintw(playerWindow, 2, 1, "                      ");
+        mvwprintw(playerWindow, 1, 1, "Player %d", currentPlayer + 1);
+	    mvwprintw(playerWindow, 2, 1, "Cards: %d", players.at(currentPlayer).hand.size());
 
         mvwprintw(cardWindow, 12, 1, "PageDown");
         mvwprintw(cardWindow, 1, 1, "PageUp");
 
-        wattron(debugWindow, COLOR_PAIR(getCardColorAsANSI(lastCard)));
-        mvwprintw(debugWindow, 12, 1, printTLCard(lastCard).c_str());
-        wattroff(debugWindow, COLOR_PAIR(getCardColorAsANSI(lastCard)));
+        wattron(playerWindow, COLOR_PAIR(getCardColorAsANSI(lastCard)));
+        wattroff(playerWindow, COLOR_PAIR(getCardColorAsANSI(lastCard)));
 
         ch = getch();
         switch (ch) {
@@ -133,8 +149,12 @@ int main() {
             case '\n':
                 result = discardCard(deck.at(selection + displayOffset), lastCard, 1);
                 if (result) {
-                    mvwprintw(debugWindow, 11, 1, "discard result: %d", result);
+                    mvwprintw(playerWindow, 12, 1, "                          ");
+                    mvwprintw(playerWindow, 11, 1, "Discard Result: %d", result);
+                    pile.push_back(deck.at(selection + displayOffset));
                     deck.erase(deck.begin() + selection + displayOffset);
+                } else {
+                    mvwprintw(playerWindow, 12, 1, "You cannot play this card.");
                 }
                 break;
         }

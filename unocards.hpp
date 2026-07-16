@@ -40,6 +40,12 @@ class uno {
             colors color;
             types type;
         };
+
+        struct player {
+            std::string name;
+            bool skipped;
+            std::vector<card> hand;
+        };
 };
 
 std::string printTLCard(uno::card card) {

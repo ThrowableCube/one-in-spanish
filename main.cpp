@@ -66,6 +66,11 @@ int main() {
     keypad(stdscr, 1);
     nodelay(stdscr, 1);
 
+    if (has_colors() == 0) {
+        printw("Your terminal doesn't support color, game will run fine but will probably be harder to read.");
+        refresh();
+    }
+
     init_pair(1, COLOR_RED, COLOR_BLACK);
     init_pair(2, COLOR_BLUE, COLOR_BLACK);
     init_pair(3, COLOR_GREEN, COLOR_BLACK);

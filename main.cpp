@@ -78,13 +78,13 @@ int main() {
     init_pair(5, COLOR_WHITE, -1);
 
     WINDOW* cardWindow = newwin(14,14,1,1);
-    box(cardWindow,ACS_VLINE,ACS_HLINE);
+    box(cardWindow,0,0);
 
     WINDOW* pileWindow = newwin(14,20,1,51);
-    box(pileWindow,ACS_VLINE,ACS_HLINE);
+    box(pileWindow,0,0);
 
     WINDOW* playerWindow = newwin(14,34,1,16);
-    box(playerWindow,ACS_VLINE,ACS_HLINE);
+    box(playerWindow,0,0);
 
     //////////////////////////////////////////////////////////////////////////
 

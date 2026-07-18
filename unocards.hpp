@@ -24,7 +24,8 @@ class uno {
             red = 0,
             blue,
             green,
-            yellow
+            yellow,
+            wild
         };
         enum class types {
             none = 0,
@@ -47,6 +48,40 @@ class uno {
             std::vector<card> hand;
         };
 };
+
+std::string printCardFN(uno::card card) {
+    std::string rs;
+    std::vector<std::string> letterColor = {"Red ", "Blue ", "Green ", "Yellow "};
+    if (card.type == uno::types::none) {
+        rs = letterColor.at(static_cast<int>(card.color));
+        rs += std::to_string(card.number);
+    } else {
+        switch (static_cast<int>(card.type)) {
+            case 1:
+                rs = letterColor.at(static_cast<int>(card.color));
+                rs += "+2";
+                break;
+            case 2:
+                rs = letterColor.at(static_cast<int>(card.color));
+                rs += "Reverse";
+                break;
+            case 3:
+                rs = letterColor.at(static_cast<int>(card.color));
+                rs += "Skip";
+                break;
+            case 4:
+                rs = "Wild";
+                break;
+            case 5:
+                rs = "Wild +4";
+                break;
+            default:
+                rs = "Error...";
+                break;
+        }
+    }
+    return rs; // changed back to std string
+}
 
 std::string printTLCard(uno::card card) {
     std::string rs;

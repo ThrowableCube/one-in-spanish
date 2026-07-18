@@ -24,12 +24,22 @@ int main() {
     // somebodys gonna get confused by this so...
     for (int x = 0 ; x < 4 ; x++) { // this cycles color
         deck.push_back({0, static_cast<uno::colors>(x), uno::types::none});
-        for (int y = 0 ; y < 9 ; y++) { // this for generates number cards above 0
-            for (int z = 0 ; z < 2 ; z++) { // this generates the card 2 times
+        for (int z = 0 ; z < 2 ; z++) { // this generates the card 2 times
+            for (int y = 0 ; y < 9 ; y++) { // this for generates number cards above 0
                 deck.push_back({(y + 1), static_cast<uno::colors>(x), uno::types::none});
             }
+
+            deck.push_back({42, static_cast<uno::colors>(x), uno::types::draw});
+            deck.push_back({42, static_cast<uno::colors>(x), uno::types::reverse});
+            deck.push_back({42, static_cast<uno::colors>(x), uno::types::skip});
         }
     }
+
+    for (int i = 0 ; i < 4 ; i++) {
+        deck.push_back({69, static_cast<uno::colors>(4), uno::types::wild});
+        deck.push_back({69, static_cast<uno::colors>(4), uno::types::wilddraw});
+    }
+
     // end of hell code
 
     std::shuffle(deck.begin(), deck.end(), g);
@@ -48,7 +58,6 @@ int main() {
     int displayedLine = 0;
     int displayOffset = 0;
     int result = 0;
-    int deathFromAbove = 0; // This is a song by toby emerson :]
     int currentPlayer = 0;
     int threshold = 50;
     bool notOOB = 0;
@@ -59,27 +68,28 @@ int main() {
     // start of pdcurses
     // OUUU SHI VS CODE RECOGNIZES IT
     initscr();
-    start_color();
-    use_default_colors();
     curs_set(0);
     noecho();
     keypad(stdscr, 1);
     nodelay(stdscr, 1);
 
     if (has_colors() == 0) {
-        printw("Your terminal doesn't support color, game will run fine but will probably be harder to read.");
+        printw("Your terminal doesn't support color.");
         refresh();
+    } else {
+        start_color();
+        use_default_colors();
     }
 
     init_pair(1, COLOR_RED, -1);
     init_pair(2, COLOR_BLUE, -1);
     init_pair(3, COLOR_GREEN, -1);
     init_pair(4, COLOR_YELLOW, -1);
-    init_pair(5, COLOR_WHITE, -1);
+    init_pair(5, COLOR_MAGENTA, -1);
 
     WINDOW* cardWindow = newwin(14,14,1,1);
 
-    WINDOW* pileWindow = newwin(14,20,1,51);
+    WINDOW* pileWindow = newwin(4,49,16,1);
 
     WINDOW* playerWindow = newwin(14,34,1,16);
 
@@ -93,6 +103,8 @@ int main() {
 
     while (notClose) {
         refresh();
+        mvwprintw(playerWindow, 12, 1, "                                ");
+        mvwprintw(playerWindow, 12, 1, printCardFN(deck.at(selection + displayOffset)).c_str());
         for (int i = 0 ; i < 10 ; i++) {
             if ((i + displayOffset) >= deck.size()) {
                 mvwprintw(cardWindow, (11 - i), 1, "  ");
@@ -107,14 +119,6 @@ int main() {
             }
         }
 
-        // THIS IS FOR THE DISCARD PILE NOT THE HAND WINDOW.
-        if (0 >= pile.size()) {
-            mvwprintw(pileWindow, (1), 1, "  ");
-        } else {
-            wattron(pileWindow, COLOR_PAIR(getCardColorAsANSI(pile.at(pile.size() - 1))));
-            mvwprintw(pileWindow, (1), 1, printTLCard(pile.at((pile.size() - 1))).c_str());
-            wattroff(pileWindow, COLOR_PAIR(getCardColorAsANSI(pile.at(pile.size() - 1))));
-        }
         wrefresh(playerWindow);
         wrefresh(cardWindow);
         wrefresh(pileWindow);
@@ -150,12 +154,12 @@ int main() {
             case '\n':
                 result = discardCard(deck.at(selection + displayOffset), lastCard, 1);
                 if (result) {
-                    mvwprintw(playerWindow, 12, 1, "                          ");
+                    mvwprintw(playerWindow, 11, 1, "                                ");
                     mvwprintw(playerWindow, 11, 1, "Discard Result: %d", result);
                     pile.push_back(deck.at(selection + displayOffset));
                     deck.erase(deck.begin() + selection + displayOffset);
-                } else {
-                    mvwprintw(playerWindow, 12, 1, "You cannot play this card.");
+                } else { 
+                    mvwprintw(playerWindow, 11, 1, "You cannot play this card.");
                 }
                 break;
         }
@@ -173,10 +177,6 @@ int main() {
             displayOffset = 0;
         } else if (displayOffset > deck.size() - 10) {
             displayOffset = deck.size() - 10;
-        }
-
-        if (deck.size() < 1) {
-            notClose = 0;
         }
     }
 
